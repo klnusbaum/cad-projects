@@ -1,11 +1,12 @@
 // include instead of use, so we get the pitch
 include <third-party/gridfinity-extended/modules/gridfinity_constants.scad>
 use <third-party/gridfinity-extended/modules/module_gridfinity.scad>
+use <third-party/gridfinity-extended/modules/module_gridfinity_baseplate.scad>
 
 $fa = 1;
 $fs = 0.4;
 
-epsilon=0.1;
+epsilon=0.01;
 pad_interface_height=5;
 wall_height=30;
 wall_width=5;
@@ -38,6 +39,9 @@ module lid(pad_length) {
             translate([pad_length*gf_pitch-wall_support_dim/2-10,pad_width*gf_pitch - (wall_width+wall_support_dim/2),0]){
                 peg_hole();
             }
+        }
+        translate([0,0,lid_height-epsilon]) {
+            gridfinity_baseplate(num_x=pad_length, num_y=pad_width);
         }
     }
 }
