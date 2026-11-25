@@ -73,9 +73,23 @@ module wall(pad_length) {
         }
     }
 }
+
+module wall_fillet(pad_length) {
+    translate([0,wall_width,5+pad_interface_height-epsilon]) {
+        difference(){
+            cube([pad_length*gf_pitch,wall_support_dim,wall_support_dim]);
+            translate([0,wall_support_dim,wall_support_dim]){
+                rotate([0,90,0])
+                cylinder(h=pad_length*gf_pitch, r=wall_support_dim);
+            }
+        }
+    }
+}
+
 module side(pad_length) {
     base(pad_length);
     wall(pad_length);
+    wall_fillet(pad_length);
 }
 module front_left_side() {
     side(3);
