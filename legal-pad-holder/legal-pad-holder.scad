@@ -14,10 +14,9 @@ wall_support_dim=9;
 peg_height=5;
 peg_radius=3;
 peg_tolerance=0.1;
-pad_width=6;
 lid_height=5;
 
-part="assembled";
+part="front_left_side";
 
 module peg_hole() {
     cylinder(r=peg_radius, h=peg_height);
@@ -27,7 +26,7 @@ module peg() {
     cylinder(h=peg_height, r=peg_radius-peg_tolerance);
 }
 
-module lid(pad_length) {
+module lid(pad_length,pad_width) {
     translate([0,0,wall_height+pad_interface_height+peg_height]) {
         difference(){
             cube([pad_length*gf_pitch, pad_width * gf_pitch, lid_height]);
@@ -97,14 +96,17 @@ module back_right_side() {
 }
 
 module front_lid() {
-    lid(3);
+    lid(3,6);
 }
 
 module back_lid() {
     translate([-4*gf_pitch, 0,0])
-    lid(4);
+    lid(4,6);
 }
 
+module test_narrow_front_lid() {
+    lid(3,1);
+}
 
 module assembled() {
     front_left_side();
@@ -127,6 +129,8 @@ if (part == "front_left_side") {
     front_lid();
 } else if (part == "back_lid") {
     back_lid();
+} else if (part == "test_narrow_front_lid") {
+    test_narrow_front_lid();
 } else {
     assembled();
 }
