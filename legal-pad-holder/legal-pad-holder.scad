@@ -13,7 +13,7 @@ wall_width=5;
 wall_support_dim=9;
 peg_height=5;
 peg_radius=3;
-peg_tolerance=0.4;
+peg_tolerance=0.2;
 pad_width=6;
 lid_height=5;
 
@@ -23,20 +23,24 @@ module peg_hole() {
     cylinder(r=peg_radius, h=peg_height);
 }
 
+module peg() {
+    cylinder(h=peg_height, r=peg_radius-peg_tolerance);
+}
+
 module lid(pad_length) {
     translate([0,0,wall_height+pad_interface_height+peg_height]) {
         difference(){
             cube([pad_length*gf_pitch, pad_width * gf_pitch, lid_height]);
-            translate([10 + wall_support_dim/2,wall_width+wall_support_dim/2,0]){
+            translate([gf_pitch/2,wall_width+wall_support_dim/2,0]){
                 peg_hole();
             }
-            translate([10 + wall_support_dim/2, pad_width*gf_pitch - (wall_width+wall_support_dim/2),0]){
+            translate([gf_pitch/2, pad_width*gf_pitch - (wall_width+wall_support_dim/2),0]){
                 peg_hole();
             }
-            translate([pad_length*gf_pitch-wall_support_dim/2-10,wall_width+wall_support_dim/2,0]){
+            translate([pad_length*gf_pitch-(gf_pitch/2),wall_width+wall_support_dim/2,0]){
                 peg_hole();
             }
-            translate([pad_length*gf_pitch-wall_support_dim/2-10,pad_width*gf_pitch - (wall_width+wall_support_dim/2),0]){
+            translate([pad_length*gf_pitch-(gf_pitch/2),pad_width*gf_pitch - (wall_width+wall_support_dim/2),0]){
                 peg_hole();
             }
         }
@@ -55,17 +59,17 @@ translate([0,0,5])
 module wall_support() {
     cube([wall_support_dim,wall_support_dim,wall_height]);
     translate([wall_support_dim/2,wall_support_dim/2,wall_height]) {
-        cylinder(h=peg_height, r=peg_radius-peg_tolerance);
+        peg();
     }
 }
 
 module wall(pad_length) {
     translate([0,0,5+pad_interface_height-epsilon]) {
         cube([pad_length*gf_pitch,wall_width,wall_height]);
-        translate([10,wall_width,0]){
+        translate([(gf_pitch-wall_support_dim)/2,wall_width,0]){
             wall_support();
         }
-        translate([pad_length*gf_pitch-wall_support_dim-10,wall_width,0]){
+        translate([pad_length*gf_pitch-(gf_pitch+wall_support_dim)/2,wall_width,0]){
             wall_support();
         }
     }
