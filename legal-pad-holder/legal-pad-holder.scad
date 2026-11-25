@@ -13,7 +13,7 @@ wall_width=5;
 wall_support_dim=9;
 peg_height=5;
 peg_radius=3;
-peg_tolerance=0.2;
+peg_tolerance=0.1;
 pad_width=6;
 lid_height=5;
 
