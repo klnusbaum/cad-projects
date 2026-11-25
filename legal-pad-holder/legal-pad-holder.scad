@@ -7,6 +7,7 @@ $fa = 1;
 $fs = 0.4;
 
 epsilon=0.01;
+floor_height=5;
 pad_interface_height=5;
 wall_height=30;
 wall_width=5;
@@ -50,8 +51,8 @@ module lid(pad_length,pad_width) {
 }
 
 module base(pad_length) {
-translate([0,0,5])
-    cube([pad_length*gf_pitch,gf_pitch,pad_interface_height]);
+translate([0,0,pad_interface_height])
+    cube([pad_length*gf_pitch,gf_pitch,floor_height-epsilon]);
     pad_grid(pad_length,1);
 }
 
@@ -63,7 +64,7 @@ module wall_support() {
 }
 
 module wall(pad_length) {
-    translate([0,0,5+pad_interface_height-epsilon]) {
+    translate([0,0,pad_interface_height+floor_height-epsilon]) {
         cube([pad_length*gf_pitch,wall_width,wall_height]);
         translate([(gf_pitch-wall_support_dim)/2,wall_width,0]){
             wall_support();
@@ -75,7 +76,7 @@ module wall(pad_length) {
 }
 
 module wall_fillet(pad_length) {
-    translate([0,wall_width,5+pad_interface_height-epsilon]) {
+    translate([0,wall_width,pad_interface_height+floor_height-epsilon]) {
         difference(){
             cube([pad_length*gf_pitch,wall_support_dim,wall_support_dim]);
             translate([0,wall_support_dim,wall_support_dim]){
